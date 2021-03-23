@@ -44,3 +44,34 @@ postman curl collection: https://www.getpostman.com/collections/610b142d29357acc
     | ledger         |
     | user           |
     +----------------+
+    
+    mysql> desc user;
+    +----------+--------------+------+-----+---------+----------------+
+    | Field    | Type         | Null | Key | Default | Extra          |
+    +----------+--------------+------+-----+---------+----------------+
+    | id       | int          | NO   | PRI | NULL    | auto_increment |
+    | password | varchar(255) | YES  |     | NULL    |                |
+    | type     | varchar(255) | YES  |     | NULL    |                |
+    | username | varchar(255) | YES  | UNI | NULL    |                |
+    +----------+--------------+------+-----+---------+----------------+
+    
+    mysql> desc customer;
+    +---------------+--------------+------+-----+---------+----------------+
+    | Field         | Type         | Null | Key | Default | Extra          |
+    +---------------+--------------+------+-----+---------+----------------+
+    | id            | int          | NO   | PRI | NULL    | auto_increment |
+    | customer_name | varchar(255) | YES  |     | NULL    |                |
+    | iskycdone     | bit(1)       | YES  |     | NULL    |                |
+    +---------------+--------------+------+-----+---------+----------------+
+    
+    mysql> desc account;
+    +--------------+--------+------+-----+---------+----------------+
+    | Field        | Type   | Null | Key | Default | Extra          |
+    +--------------+--------+------+-----+---------+----------------+
+    | id           | int    | NO   | PRI | NULL    | auto_increment |
+    | account_type | int    | YES  |     | NULL    |                |
+    | balance      | double | YES  |     | NULL    |                |
+    | customer_id  | int    | YES  |     | NULL    |                |
+    +--------------+--------+------+-----+---------+----------------+
+    
+    
