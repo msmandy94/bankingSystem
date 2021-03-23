@@ -127,7 +127,7 @@ public class Controller {
     }
 
 
-    @RequestMapping(value = "/addCustomer", method = RequestMethod.POST)
+    @RequestMapping(value = "/addAccount", method = RequestMethod.POST)
     public ResponseEntity<?> addAccount(@RequestBody AccountDTO accountDTO) throws Exception {
         String userName = jwtTokenUtil.getUserNameFromRequest(request);
         DAOUser user = userManagementService.getUserByUserName(userName);
