@@ -1,9 +1,10 @@
-package com.example.bankingSystem.service;
+package com.example.bankingSystem.service.impl;
 
 import com.example.bankingSystem.dao.UserDao;
 import com.example.bankingSystem.model.EmployeeDTO;
 import com.example.bankingSystem.entities.DAOUser;
 import com.example.bankingSystem.model.UserType;
+import com.example.bankingSystem.service.UserManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;

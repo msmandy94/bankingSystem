@@ -1,7 +1,10 @@
-package com.example.bankingSystem.service;
+package com.example.bankingSystem.service.impl;
 
+import com.example.bankingSystem.dao.CustomerDao;
 import com.example.bankingSystem.entities.DAOCustomer;
 import com.example.bankingSystem.model.CustomerDTO;
+import com.example.bankingSystem.service.CustomerManagementService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -9,14 +12,20 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class CustomerManagementServiceImpl implements CustomerManagementService {
+    @Autowired
+    private CustomerDao customerDao;
+
     @Override
     public DAOCustomer addCustomer(CustomerDTO customer) {
-        return null;
+        DAOCustomer daoCustomer = new DAOCustomer();
+        daoCustomer.setCustomerName(customer.getCustomerName());
+        daoCustomer.setKYCDone(customer.isKYCDone());
+        return customerDao.save(daoCustomer);
     }
 
     @Override
     public DAOCustomer deleteCustomer(CustomerDTO customer) {
-        return null;
+        return customerDao.deleteById(customer.getCustomerId());
     }
 
     @Override
