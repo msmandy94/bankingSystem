@@ -1,8 +1,6 @@
 # bankingSystem
 
-# bankingSystem
-
-## Admin role with features:
+### Admin role with features:
 
 Sign in/out as admin.
 
@@ -10,7 +8,7 @@ Add bank employees.
 
 Delete employees.
 
-## Employee role with feature:
+### Employee role with feature:
 
 Sign in/out as an employee. 
 
