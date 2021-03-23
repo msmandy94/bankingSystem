@@ -17,6 +17,10 @@ public class DAOUser {
 	@JsonIgnore
 	private String password;
 
+	@Column
+	@JsonIgnore
+	private String type; // ADMIN or EMPLOYEE
+
 	public String getUsername() {
 		return username;
 	}
@@ -33,4 +37,11 @@ public class DAOUser {
 		this.password = password;
 	}
 
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
 }

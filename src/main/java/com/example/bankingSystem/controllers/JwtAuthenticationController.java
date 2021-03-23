@@ -4,8 +4,8 @@ package com.example.bankingSystem.controllers;
  * Created by mandeep.singh on 1:30 AM 23/03/21 Tuesday
  */
 
-import java.util.Objects;
-
+import com.example.bankingSystem.model.AddEmployeeDTO;
+import com.example.bankingSystem.service.UserManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -39,6 +39,9 @@ public class JwtAuthenticationController {
     @Autowired
     private JwtUserDetailsService userDetailsService;
 
+    @Autowired
+    private UserManagementService userManagementService;
+
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
 
@@ -55,6 +58,12 @@ public class JwtAuthenticationController {
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ResponseEntity<?> saveUser(@RequestBody UserDTO user) throws Exception {
         return ResponseEntity.ok(userDetailsService.save(user));
+    }
+
+    @RequestMapping(value = "/addEmployee", method = RequestMethod.POST)
+    public ResponseEntity<?> addEmployee(@RequestBody AddEmployeeDTO employeeDTO) throws Exception {
+//        authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
+        return ResponseEntity.ok(userManagementService.addEmployee(employeeDTO));
     }
 
     private void authenticate(String username, String password) throws Exception {
