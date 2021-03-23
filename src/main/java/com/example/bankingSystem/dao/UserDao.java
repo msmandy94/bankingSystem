@@ -1,6 +1,6 @@
 package com.example.bankingSystem.dao;
 
-import com.example.bankingSystem.model.DAOUser;
+import com.example.bankingSystem.entities.DAOUser;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

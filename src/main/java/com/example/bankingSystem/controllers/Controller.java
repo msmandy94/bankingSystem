@@ -1,36 +1,134 @@
 package com.example.bankingSystem.controllers;
 
-import com.example.bankingSystem.Dtos.Dummy;
-import com.example.bankingSystem.Dtos.SignInRequest;
+/**
+ * Created by mandeep.singh on 1:30 AM 23/03/21 Tuesday
+ */
+
+import com.example.bankingSystem.entities.DAOUser;
+import com.example.bankingSystem.model.*;
+import com.example.bankingSystem.service.CustomerManagementService;
+import com.example.bankingSystem.service.UserManagementService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import com.example.bankingSystem.service.JwtUserDetailsService;
 
-/**
- * Created by mandeep.singh on 12:52 AM 23/03/21 Tuesday
- */
+
+import com.example.bankingSystem.config.JwtTokenUtil;
+
+import javax.servlet.http.HttpServletRequest;
+
 @RestController
-@RequestMapping("/api")
+@CrossOrigin
 public class Controller {
 
-    @RequestMapping(value = "/healthCheck", method = RequestMethod.GET)
-    public ResponseEntity<String> healthCheck() {
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
-        return new ResponseEntity<>("ok", null, HttpStatus.OK);
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
+
+    @Autowired
+    private JwtUserDetailsService userDetailsService;
+
+    @Autowired
+    private UserManagementService userManagementService;
+
+    @Autowired
+    private HttpServletRequest request;
+
+    @Autowired
+    private CustomerManagementService customerManagementService;
+
+    @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
+    public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
+
+        authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
+
+        final UserDetails userDetails = userDetailsService
+                .loadUserByUsername(authenticationRequest.getUsername());
+
+        final String token = jwtTokenUtil.generateToken(userDetails);
+
+        return ResponseEntity.ok(new JwtResponse(token));
     }
 
-    @RequestMapping(value = "/healthCheck2", method = RequestMethod.GET)
-    public ResponseEntity<Dummy> healthCheck2() {
-        Dummy dummy = new Dummy();
-        dummy.setName("mandeep");
-        return new ResponseEntity<>(dummy, null, HttpStatus.OK);
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public ResponseEntity<?> saveUser(@RequestBody UserDTO user) throws Exception {
+        return ResponseEntity.ok(userDetailsService.save(user));
     }
 
-    @RequestMapping(value = "/signIn", method = RequestMethod.POST)
-    public ResponseEntity<Object> signIn(@RequestBody SignInRequest request) {
-        return new ResponseEntity<>(null, null, HttpStatus.OK);
+    @RequestMapping(value = "/addEmployee", method = RequestMethod.POST)
+    public ResponseEntity<?> addEmployee(@RequestBody EmployeeDTO employeeDTO) throws Exception {
+        String userName = jwtTokenUtil.getUserNameFromRequest(request);
+        DAOUser user = userManagementService.getUserByUserName(userName);
+        if (user.getType().equals(UserType.ADMIN.name())) {
+            return ResponseEntity.ok(userManagementService.addEmployee(employeeDTO));
+        }
+        return new ResponseEntity<>("user is not admin", null, HttpStatus.UNAUTHORIZED);
+    }
+
+    @RequestMapping(value = "/deleteEmployee", method = RequestMethod.POST)
+    public ResponseEntity<?> deleteEmployee(@RequestBody EmployeeDTO employeeDTO) throws Exception {
+        String userName = jwtTokenUtil.getUserNameFromRequest(request);
+        DAOUser user = userManagementService.getUserByUserName(userName);
+        if (user.getType().equals(UserType.ADMIN.name())) {
+            userManagementService.deleteEmployee(employeeDTO);
+            return ResponseEntity.ok("ok");
+        }
+        return new ResponseEntity<>("user is not admin", null, HttpStatus.UNAUTHORIZED);
+    }
+
+    @RequestMapping(value = "/addCustomer", method = RequestMethod.POST)
+    public ResponseEntity<?> addCustomer(@RequestBody CustomerDTO customerDTO) throws Exception {
+        String userName = jwtTokenUtil.getUserNameFromRequest(request);
+        DAOUser user = userManagementService.getUserByUserName(userName);
+        if (user.getType().equals(UserType.EMPLOYEE.name())) {
+            customerManagementService.addCustomer(customerDTO);
+            return ResponseEntity.ok("ok");
+        }
+        return new ResponseEntity<>("user is not EMPLOYEE", null, HttpStatus.UNAUTHORIZED);
+    }
+
+    @RequestMapping(value = "/deleteCustomer", method = RequestMethod.POST)
+    public ResponseEntity<?> deleteCustomer(@RequestBody CustomerDTO customerDTO) throws Exception {
+        String userName = jwtTokenUtil.getUserNameFromRequest(request);
+        DAOUser user = userManagementService.getUserByUserName(userName);
+        if (user.getType().equals(UserType.EMPLOYEE.name())) {
+            customerManagementService.deleteCustomer(customerDTO);
+            return ResponseEntity.ok("ok");
+        }
+        return new ResponseEntity<>("user is not EMPLOYEE", null, HttpStatus.UNAUTHORIZED);
+    }
+
+    @RequestMapping(value = "/updateKYCCustomer", method = RequestMethod.POST)
+    public ResponseEntity<?> updateKYCCustomer(@RequestBody CustomerDTO customerDTO) throws Exception {
+        String userName = jwtTokenUtil.getUserNameFromRequest(request);
+        DAOUser user = userManagementService.getUserByUserName(userName);
+        if (user.getType().equals(UserType.EMPLOYEE.name())) {
+            customerManagementService.updateKYC(customerDTO);
+            return ResponseEntity.ok("ok");
+        }
+        return new ResponseEntity<>("user is not EMPLOYEE", null, HttpStatus.UNAUTHORIZED);
+    }
+
+    private void authenticate(String username, String password) throws Exception {
+        try {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+        } catch (DisabledException e) {
+            throw new Exception("USER_DISABLED", e);
+        } catch (BadCredentialsException e) {
+            throw new Exception("INVALID_CREDENTIALS", e);
+        }
     }
 }

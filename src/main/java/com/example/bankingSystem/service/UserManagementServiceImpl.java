@@ -2,7 +2,7 @@ package com.example.bankingSystem.service;
 
 import com.example.bankingSystem.dao.UserDao;
 import com.example.bankingSystem.model.EmployeeDTO;
-import com.example.bankingSystem.model.DAOUser;
+import com.example.bankingSystem.entities.DAOUser;
 import com.example.bankingSystem.model.UserType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

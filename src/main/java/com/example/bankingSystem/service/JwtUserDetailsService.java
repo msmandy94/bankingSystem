@@ -11,7 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.bankingSystem.dao.UserDao;
-import com.example.bankingSystem.model.DAOUser;
+import com.example.bankingSystem.entities.DAOUser;
 import com.example.bankingSystem.model.UserDTO;
 
 @Service

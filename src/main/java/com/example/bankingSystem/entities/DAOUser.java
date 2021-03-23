@@ -1,4 +1,4 @@
-package com.example.bankingSystem.model;
+package com.example.bankingSystem.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
