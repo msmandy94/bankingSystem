@@ -11,14 +11,16 @@ public class DAOUser {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	@Column
+
+	@Column(unique = true)
 	private String username;
+
 	@Column
 	@JsonIgnore
 	private String password;
 
 	@Column
-	@JsonIgnore
+//	@JsonIgnore
 	private String type; // ADMIN or EMPLOYEE
 
 	public String getUsername() {

@@ -34,3 +34,13 @@ Calculate interest for the money annually (at 3.5% p.a.) and update the account 
 
 
 postman curl collection: https://www.getpostman.com/collections/610b142d29357acc5c09
+
+## Entities
+    +----------------+
+    | Tables_in_test |
+    +----------------+
+    | account        |
+    | customer       |
+    | ledger         |
+    | user           |
+    +----------------+
