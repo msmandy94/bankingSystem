@@ -28,7 +28,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public DAOAccount linkAccount(long accountId, long customerId) {
+    public DAOAccount linkAccount(int accountId, int customerId) {
         DAOAccount accountDetails = getAccountDetails(accountId);
         accountDetails.setCustomerId(customerId);
         accountDao.save(accountDetails); // todo test
@@ -36,12 +36,12 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public DAOAccount getAccountDetails(long accountId) {
+    public DAOAccount getAccountDetails(int accountId) {
         return accountDao.findById(accountId);
     }
 
     @Override
-    public boolean transferMoney(long srcAccId, long destAccId, double amount) {
+    public boolean transferMoney(int srcAccId, int destAccId, double amount) {
         return false;
     }
 }

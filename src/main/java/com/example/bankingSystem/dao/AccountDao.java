@@ -9,8 +9,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AccountDao extends CrudRepository<DAOAccount, Integer> {
 
-	DAOAccount findById(long id);
+	DAOAccount findById(int id);
 
-	void deleteById(long id);
+	void deleteById(int id);
 	
 }

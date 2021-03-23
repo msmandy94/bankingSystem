@@ -15,50 +15,58 @@ public class DAOLedger {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private int id;
 
     @Column
     @Indexed
-    private long transactionTimeInMillis;
+    private int transactionTimeInMillis;
 
     @Column
-    private long srcAccountId;
+    private int srcAccountId;
 
     @Column
-    private long destAccountId;
+    private int destAccountId;
 
     @Column
-    private long amount;
+    private double amount;
 
-    public long getTransactionTimeInMillis() {
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getTransactionTimeInMillis() {
         return transactionTimeInMillis;
     }
 
-    public void setTransactionTimeInMillis(long transactionTimeInMillis) {
+    public void setTransactionTimeInMillis(int transactionTimeInMillis) {
         this.transactionTimeInMillis = transactionTimeInMillis;
     }
 
-    public long getSrcAccountId() {
+    public int getSrcAccountId() {
         return srcAccountId;
     }
 
-    public void setSrcAccountId(long srcAccountId) {
+    public void setSrcAccountId(int srcAccountId) {
         this.srcAccountId = srcAccountId;
     }
 
-    public long getDestAccountId() {
+    public int getDestAccountId() {
         return destAccountId;
     }
 
-    public void setDestAccountId(long destAccountId) {
+    public void setDestAccountId(int destAccountId) {
         this.destAccountId = destAccountId;
     }
 
-    public long getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(long amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 }

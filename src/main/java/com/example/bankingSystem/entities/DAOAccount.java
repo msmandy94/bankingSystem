@@ -15,11 +15,11 @@ public class DAOAccount {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private int id;
 
     @Column
     @Indexed
-    private long customerId;
+    private int customerId;
 
     @Column
     private AccountType accountType;
@@ -27,11 +27,11 @@ public class DAOAccount {
     @Column
     private double balance;
 
-    public long getCustomerId() {
+    public int getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(long customerId) {
+    public void setCustomerId(int customerId) {
         this.customerId = customerId;
     }
 

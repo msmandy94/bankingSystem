@@ -53,7 +53,7 @@ public class Controller {
 
     @Autowired
     private AccountService accountService;
-
+    // for users (admin and employee)
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
 
@@ -87,12 +87,16 @@ public class Controller {
         String userName = jwtTokenUtil.getUserNameFromRequest(request);
         DAOUser user = userManagementService.getUserByUserName(userName);
         if (user.getType().equals(UserType.ADMIN.name())) {
-            userManagementService.deleteEmployee(employeeDTO);
+            int rowsAffected = userManagementService.deleteEmployee(employeeDTO);
+            if (rowsAffected == 0) {
+                return ResponseEntity.ok("employee doesn't exists");
+            }
             return ResponseEntity.ok("ok");
         }
         return new ResponseEntity<>("user is not admin", null, HttpStatus.UNAUTHORIZED);
     }
 
+    // EMPLOYEE
     @RequestMapping(value = "/addCustomer", method = RequestMethod.POST)
     public ResponseEntity<?> addCustomer(@RequestBody CustomerDTO customerDTO) throws Exception {
         String userName = jwtTokenUtil.getUserNameFromRequest(request);

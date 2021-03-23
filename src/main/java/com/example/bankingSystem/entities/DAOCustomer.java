@@ -15,7 +15,7 @@ public class DAOCustomer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private int id;
 
     @Column
     private boolean isKYCDone;

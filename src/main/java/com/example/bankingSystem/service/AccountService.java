@@ -9,9 +9,9 @@ import com.example.bankingSystem.model.AccountDTO;
 public interface AccountService {
     DAOAccount addAccount(AccountDTO accountDTO);
 
-    DAOAccount linkAccount(long accountId, long customerId);
+    DAOAccount linkAccount(int accountId, int customerId);
 
-    DAOAccount getAccountDetails(long accountId);
+    DAOAccount getAccountDetails(int accountId);
 
-    boolean transferMoney(long srcAccId, long destAccId, double amount);
+    boolean transferMoney(int srcAccId, int destAccId, double amount);
 }

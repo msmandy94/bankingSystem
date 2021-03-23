@@ -8,7 +8,7 @@ import com.example.bankingSystem.entities.DAOUser;
  */
 public interface UserManagementService {
     DAOUser addEmployee(EmployeeDTO user);
-    void deleteEmployee(EmployeeDTO user);
+    int deleteEmployee(EmployeeDTO user);
 
     DAOUser getUserByUserName(String userName);
 

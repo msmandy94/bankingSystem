@@ -6,25 +6,25 @@ import com.example.bankingSystem.entities.AccountType;
  * Created by mandeep.singh on 12:41 PM 23/03/21 Tuesday
  */
 public class AccountDTO {
-    private long id;
-    private long customerId;
+    private int id;
+    private int customerId;
     private double balance;
     private AccountType accountType;
 
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public long getCustomerId() {
+    public int getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(long customerId) {
+    public void setCustomerId(int customerId) {
         this.customerId = customerId;
     }
 

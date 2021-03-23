@@ -31,9 +31,10 @@ public class UserManagementServiceImpl implements UserManagementService {
     }
 
     @Override
-    public void deleteEmployee(EmployeeDTO user) {
-        int status = userDao.deleteByUsername(user.getEmployeeUserName());
-        System.out.println(status);
+    public int deleteEmployee(EmployeeDTO user) {
+        int rowsAffected = userDao.deleteByUsername(user.getEmployeeUserName());
+        System.out.println(rowsAffected);
+        return rowsAffected;
     }
 
     @Override

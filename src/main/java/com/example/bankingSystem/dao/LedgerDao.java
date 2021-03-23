@@ -9,9 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface LedgerDao extends CrudRepository<DAOLedger, Integer> {
 
-	DAOLedger findById(long id);
+	DAOLedger findById(int id);
 
-	void deleteById(long id);
-
-	
+	void deleteById(int id);
 }
