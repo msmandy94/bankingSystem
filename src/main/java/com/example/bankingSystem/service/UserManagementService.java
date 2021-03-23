@@ -8,4 +8,7 @@ import com.example.bankingSystem.model.DAOUser;
  */
 public interface UserManagementService {
     DAOUser addEmployee(AddEmployeeDTO user);
+
+    DAOUser getUserByUserName(String userName);
+
 }

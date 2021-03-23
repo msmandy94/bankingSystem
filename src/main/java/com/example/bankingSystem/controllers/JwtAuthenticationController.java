@@ -4,9 +4,10 @@ package com.example.bankingSystem.controllers;
  * Created by mandeep.singh on 1:30 AM 23/03/21 Tuesday
  */
 
-import com.example.bankingSystem.model.AddEmployeeDTO;
+import com.example.bankingSystem.model.*;
 import com.example.bankingSystem.service.UserManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -22,9 +23,8 @@ import com.example.bankingSystem.service.JwtUserDetailsService;
 
 
 import com.example.bankingSystem.config.JwtTokenUtil;
-import com.example.bankingSystem.model.JwtRequest;
-import com.example.bankingSystem.model.JwtResponse;
-import com.example.bankingSystem.model.UserDTO;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @CrossOrigin
@@ -41,6 +41,9 @@ public class JwtAuthenticationController {
 
     @Autowired
     private UserManagementService userManagementService;
+
+    @Autowired
+    private HttpServletRequest request;
 
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
@@ -62,8 +65,12 @@ public class JwtAuthenticationController {
 
     @RequestMapping(value = "/addEmployee", method = RequestMethod.POST)
     public ResponseEntity<?> addEmployee(@RequestBody AddEmployeeDTO employeeDTO) throws Exception {
-//        authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
-        return ResponseEntity.ok(userManagementService.addEmployee(employeeDTO));
+        String userName = jwtTokenUtil.getUserNameFromRequest(request);
+        DAOUser user = userManagementService.getUserByUserName(userName);
+        if (user.getType().equals(UserType.ADMIN.name())){
+            return ResponseEntity.ok(userManagementService.addEmployee(employeeDTO));
+        }
+        return new ResponseEntity<>("user is not admin", null, HttpStatus.UNAUTHORIZED);
     }
 
     private void authenticate(String username, String password) throws Exception {
