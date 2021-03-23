@@ -6,6 +6,7 @@ package com.example.bankingSystem.controllers;
 
 import com.example.bankingSystem.entities.DAOUser;
 import com.example.bankingSystem.model.*;
+import com.example.bankingSystem.service.AccountService;
 import com.example.bankingSystem.service.CustomerManagementService;
 import com.example.bankingSystem.service.UserManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,9 @@ public class Controller {
 
     @Autowired
     private CustomerManagementService customerManagementService;
+
+    @Autowired
+    private AccountService accountService;
 
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
@@ -117,6 +121,51 @@ public class Controller {
         DAOUser user = userManagementService.getUserByUserName(userName);
         if (user.getType().equals(UserType.EMPLOYEE.name())) {
             customerManagementService.updateKYC(customerDTO);
+            return ResponseEntity.ok("ok");
+        }
+        return new ResponseEntity<>("user is not EMPLOYEE", null, HttpStatus.UNAUTHORIZED);
+    }
+
+
+    @RequestMapping(value = "/addCustomer", method = RequestMethod.POST)
+    public ResponseEntity<?> addAccount(@RequestBody AccountDTO accountDTO) throws Exception {
+        String userName = jwtTokenUtil.getUserNameFromRequest(request);
+        DAOUser user = userManagementService.getUserByUserName(userName);
+        if (user.getType().equals(UserType.EMPLOYEE.name())) {
+            accountService.addAccount(accountDTO);
+            return ResponseEntity.ok("ok");
+        }
+        return new ResponseEntity<>("user is not EMPLOYEE", null, HttpStatus.UNAUTHORIZED);
+    }
+
+    @RequestMapping(value = "/linkAccountWithCustomer", method = RequestMethod.POST)
+    public ResponseEntity<?> linkAccountWithCustomer(@RequestBody AccountDTO accountDTO) throws Exception {
+        String userName = jwtTokenUtil.getUserNameFromRequest(request);
+        DAOUser user = userManagementService.getUserByUserName(userName);
+        if (user.getType().equals(UserType.EMPLOYEE.name())) {
+            accountService.linkAccount(accountDTO.getId(), accountDTO.getCustomerId());
+            return ResponseEntity.ok("ok");
+        }
+        return new ResponseEntity<>("user is not EMPLOYEE", null, HttpStatus.UNAUTHORIZED);
+    }
+
+    @RequestMapping(value = "/getAccount", method = RequestMethod.POST)
+    public ResponseEntity<?> getAccount(@RequestBody AccountDTO accountDTO) throws Exception {
+        String userName = jwtTokenUtil.getUserNameFromRequest(request);
+        DAOUser user = userManagementService.getUserByUserName(userName);
+        if (user.getType().equals(UserType.EMPLOYEE.name())) {
+            accountService.getAccountDetails(accountDTO.getId());
+            return ResponseEntity.ok("ok");
+        }
+        return new ResponseEntity<>("user is not EMPLOYEE", null, HttpStatus.UNAUTHORIZED);
+    }
+
+    @RequestMapping(value = "/transferMoney", method = RequestMethod.POST)
+    public ResponseEntity<?> transferMoney(@RequestBody TransferMoneyDTO transferMoneyDTO) throws Exception {
+        String userName = jwtTokenUtil.getUserNameFromRequest(request);
+        DAOUser user = userManagementService.getUserByUserName(userName);
+        if (user.getType().equals(UserType.EMPLOYEE.name())) {
+            accountService.transferMoney(transferMoneyDTO.getSrcAccount(), transferMoneyDTO.getDestAccount(), transferMoneyDTO.getAmount());
             return ResponseEntity.ok("ok");
         }
         return new ResponseEntity<>("user is not EMPLOYEE", null, HttpStatus.UNAUTHORIZED);

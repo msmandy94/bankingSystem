@@ -19,13 +19,35 @@ public class DAOAccount {
 
     @Column
     @Indexed
-    private String customerId;
+    private long customerId;
 
     @Column
     private AccountType accountType;
 
     @Column
-    @JsonIgnore
-    private String type; // ADMIN or EMPLOYEE
+    private double balance;
 
+    public long getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(long customerId) {
+        this.customerId = customerId;
+    }
+
+    public AccountType getAccountType() {
+        return accountType;
+    }
+
+    public void setAccountType(AccountType accountType) {
+        this.accountType = accountType;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
 }
