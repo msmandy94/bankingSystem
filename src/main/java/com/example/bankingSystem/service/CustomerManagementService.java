@@ -11,5 +11,5 @@ import com.example.bankingSystem.model.EmployeeDTO;
 public interface CustomerManagementService {
     DAOCustomer addCustomer(CustomerDTO customer);
     DAOCustomer deleteCustomer(CustomerDTO customer);
-    DAOCustomer updateKYC(CustomerDTO customer);
+    int updateKYC(CustomerDTO customer);
 }

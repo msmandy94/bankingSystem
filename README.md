@@ -74,4 +74,15 @@ postman curl collection: https://www.getpostman.com/collections/610b142d29357acc
     | customer_id  | int    | YES  |     | NULL    |                |
     +--------------+--------+------+-----+---------+----------------+
     
+    mysql> desc ledger;
+    +----------------------------+--------+------+-----+---------+----------------+
+    | Field                      | Type   | Null | Key | Default | Extra          |
+    +----------------------------+--------+------+-----+---------+----------------+
+    | id                         | int    | NO   | PRI | NULL    | auto_increment |
+    | amount                     | double | YES  |     | NULL    |                |
+    | dest_account_id            | int    | YES  |     | NULL    |                |
+    | src_account_id             | int    | YES  |     | NULL    |                |
+    | transaction_time_in_millis | int    | YES  |     | NULL    |                |
+    +----------------------------+--------+------+-----+---------+----------------+
+    
     

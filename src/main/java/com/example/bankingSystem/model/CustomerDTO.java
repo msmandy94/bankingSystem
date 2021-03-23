@@ -6,7 +6,7 @@ package com.example.bankingSystem.model;
 public class CustomerDTO {
     int customerId;
     String customerName;
-    boolean isKYCDone;
+    boolean kycDone;
 
     public int getCustomerId() {
         return customerId;
@@ -24,11 +24,11 @@ public class CustomerDTO {
         this.customerName = customerName;
     }
 
-    public boolean isKYCDone() {
-        return isKYCDone;
+    public boolean isKycDone() {
+        return kycDone;
     }
 
-    public void setKYCDone(boolean KYCDone) {
-        isKYCDone = KYCDone;
+    public void setKycDone(boolean kycDone) {
+        this.kycDone = kycDone;
     }
 }

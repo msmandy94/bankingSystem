@@ -19,7 +19,7 @@ public class CustomerManagementServiceImpl implements CustomerManagementService 
     public DAOCustomer addCustomer(CustomerDTO customer) {
         DAOCustomer daoCustomer = new DAOCustomer();
         daoCustomer.setCustomerName(customer.getCustomerName());
-        daoCustomer.setKYCDone(customer.isKYCDone());
+        daoCustomer.setKYCDone(customer.isKycDone());
         return customerDao.save(daoCustomer);
     }
 
@@ -29,7 +29,9 @@ public class CustomerManagementServiceImpl implements CustomerManagementService 
     }
 
     @Override
-    public DAOCustomer updateKYC(CustomerDTO customer) {
-        return null;
+    public int updateKYC(CustomerDTO customer) {
+        int rowsModified =  customerDao.updateKycStatus(customer.isKycDone(), customer.getCustomerId());
+        System.out.println(rowsModified);
+        return rowsModified;
     }
 }
