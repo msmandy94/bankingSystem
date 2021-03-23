@@ -31,3 +31,6 @@ Transfer money from one account to another.
 Print Account statement of an account for a time range in pdf.
 
 Calculate interest for the money annually (at 3.5% p.a.) and update the account balance.
+
+
+postman curl collection: https://www.getpostman.com/collections/610b142d29357acc5c09
