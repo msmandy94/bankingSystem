@@ -10,5 +10,7 @@ import org.springframework.stereotype.Repository;
 public interface UserDao extends CrudRepository<DAOUser, Integer> {
 	
 	DAOUser findByUsername(String username);
+
+	void deleteByUsername(String username);
 	
 }

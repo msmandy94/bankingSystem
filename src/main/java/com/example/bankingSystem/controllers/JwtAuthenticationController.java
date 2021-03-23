@@ -64,11 +64,22 @@ public class JwtAuthenticationController {
     }
 
     @RequestMapping(value = "/addEmployee", method = RequestMethod.POST)
-    public ResponseEntity<?> addEmployee(@RequestBody AddEmployeeDTO employeeDTO) throws Exception {
+    public ResponseEntity<?> addEmployee(@RequestBody EmployeeDTO employeeDTO) throws Exception {
         String userName = jwtTokenUtil.getUserNameFromRequest(request);
         DAOUser user = userManagementService.getUserByUserName(userName);
         if (user.getType().equals(UserType.ADMIN.name())){
             return ResponseEntity.ok(userManagementService.addEmployee(employeeDTO));
+        }
+        return new ResponseEntity<>("user is not admin", null, HttpStatus.UNAUTHORIZED);
+    }
+
+    @RequestMapping(value = "/deleteEmployee", method = RequestMethod.POST)
+    public ResponseEntity<?> deleteEmployee(@RequestBody EmployeeDTO employeeDTO) throws Exception {
+        String userName = jwtTokenUtil.getUserNameFromRequest(request);
+        DAOUser user = userManagementService.getUserByUserName(userName);
+        if (user.getType().equals(UserType.ADMIN.name())){
+            userManagementService.deleteEmployee(employeeDTO);
+            return ResponseEntity.ok("ok");
         }
         return new ResponseEntity<>("user is not admin", null, HttpStatus.UNAUTHORIZED);
     }

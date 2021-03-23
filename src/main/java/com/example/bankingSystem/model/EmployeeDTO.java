@@ -3,7 +3,7 @@ package com.example.bankingSystem.model;
 /**
  * Created by mandeep.singh on 8:59 AM 23/03/21 Tuesday
  */
-public class AddEmployeeDTO {
+public class EmployeeDTO {
     String employeeUserName;
     String employeePassword;
 
